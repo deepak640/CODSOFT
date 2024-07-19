@@ -44,24 +44,18 @@
   background-color: rgba(193, 193, 70, 0.636);
   transition: 0.3s;
 }
-/* .items::after {
-  position: absolute;
-  content: '';
-  border-radius: 2px;
-  height: 1.5px;
-  width: 0;
-  left: 0;
-  bottom: 0;
-  background-color: red;
-  transition: all ease 0.3s;
-}
-.items:hover::after{
-  width: 100%;
-} */
-.items:hover{
+
+.items:hover {
   transform: scale(1.05);
 }
-.icon{
-  color: red;
+.items p{
+  padding: 5px 0;
+}
+.icon {
   cursor: pointer;
+  padding: 0 5px;
+}
+.emptynote {
+  font-size: 2rem;
+  color: rgb(156, 132, 132);
 }
