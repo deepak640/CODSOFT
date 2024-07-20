@@ -55,6 +55,12 @@
   cursor: pointer;
   padding: 0 5px;
 }
+.icon-blue{
+  color: blue;
+}
+.icon-red{
+  color: red;
+}
 .emptynote {
   font-size: 2rem;
   color: rgb(156, 132, 132);
