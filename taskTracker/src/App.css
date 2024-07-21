@@ -73,6 +73,7 @@ body {
 
 .completed-task-container{
   width: 40%;
+  position: relative;
 }
 .completed-task-container ul{
   width: 95%;
