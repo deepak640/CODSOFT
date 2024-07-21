@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import List from "./components/List";
 import "./App.css";
 import AOS from "aos";
+import CompletedTask from "./components/CompletedTask";
 import "aos/dist/aos.css";
 const App = () => {
   const [input, setInput] = useState("");
@@ -12,27 +13,40 @@ const App = () => {
       setInput("");
     }
   };
- useEffect(() => {
-   AOS.init();
- }, []);
+  useEffect(() => {
+    AOS.init();
+  }, []);
+  const [data, setData] = useState(
+    () => JSON.parse(localStorage.getItem("tasks")) || []
+  );
+  const [complete, setComplete] = useState(
+    () => JSON.parse(localStorage.getItem("tasksCompleted")) || []
+  );
   return (
-    <div className="container">
+    <>
       <h1 className="heading">Task Tracker</h1>
-      <div className="taskContainer">
-        <input
-          type="text"
-          className="search"
-          placeholder="Note"
-          name="input"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <List task={task} />
+      <div className="container">
+        <div className="taskContainer">
+          <input
+            type="text"
+            className="search"
+            placeholder="Note"
+            name="input"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <List
+            task={task}
+            data={data}
+            setComplete={setComplete}
+            setData={setData}
+          />
+        </div>
+        <CompletedTask data={complete} setData={setComplete} />
       </div>
-    </div>
+    </>
   );
 };
 
 export default App;
-

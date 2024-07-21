@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
 import moment from "moment";
+import Task from "./Task";
 
-const List = ({ task }) => {
-  const [data, setData] = useState(
-    () => JSON.parse(localStorage.getItem("tasks")) || []
-  );
-  const [edit, setEdit] = useState(false);
-  const [editingItem, setEditingItem] = useState(null);
-  const [tempTopic, setTempTopic] = useState("");
-  const momentDate = moment().format("MMMM Do");
-
+const momentDate = moment().format("MMMM Do");
+const List = ({ task, setData, data, setComplete }) => {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(data));
   }, [data]);
@@ -26,73 +14,39 @@ const List = ({ task }) => {
     }
   }, [task]);
 
-  const handleEdit = (item, save) => {
-    if (save) {
-      setData((prev) =>
-        prev.map((d) => {
-          if (d === item) {
-            return { ...d, topic: tempTopic, date: `edited at ${momentDate}` };
-          }
-          return d;
-        })
-      );
-      setTempTopic("");
-    }
-    setEdit(!edit); // toggle edit state
-    setEditingItem(save ? null : item);
+  const handleEdit = (item, newTopic) => {
+    setData((prev) =>
+      prev.map((d) => {
+        if (d === item) {
+          return { ...d, topic: newTopic, date: `edited at ${momentDate}` };
+        }
+        return d;
+      })
+    );
   };
 
   const handleDeleteTodo = (item) => {
     setData((prev) => prev.filter((d) => d !== item));
   };
-
+  const handleComplete = (task) => {
+    setComplete((prev) => [
+      ...prev,
+      data.filter(({ topic }) => topic === task)[0],
+    ]);
+    setData((prev) => prev.filter(({ topic }) => topic !== task));
+  };
   return (
     <>
       {data.length ? (
         <ul className="tasks">
-          {data.map((item, index) => (
-            <li className="items" key={index} data-aos="zoom-in">
-              <div>
-                {edit && item === editingItem ? (
-                  <p
-                    id={`${edit && item === editingItem && "editable"}`}
-                    contentEditable={true}
-                    suppressContentEditableWarning={true}
-                    onBlur={(e) => setTempTopic(e.target.textContent)}
-                  >
-                    {item.topic}
-                  </p>
-                ) : (
-                  <p>{item.topic}</p>
-                )}
-                <p>{item.date}</p>
-              </div>
-              <div>
-                {edit && item === editingItem ? (
-                  <>
-                    <CheckOutlined
-                      className="icon icon-blue"
-                      onClick={() => handleEdit(item, true)}
-                    />
-                    <CloseOutlined
-                      className="icon icon-red"
-                      onClick={() => handleEdit(item, false)}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <EditOutlined
-                      className="icon icon-blue"
-                      onClick={() => handleEdit(item, false)}
-                    />
-                    <DeleteOutlined
-                      className="icon icon-red"
-                      onClick={() => handleDeleteTodo(item)}
-                    />
-                  </>
-                )}
-              </div>
-            </li>
+          {data.map((item) => (
+            <Task
+              key={item.topic}
+              item={item}
+              onDelete={handleDeleteTodo}
+              onEdit={handleEdit}
+              onComplete={handleComplete}
+            />
           ))}
         </ul>
       ) : (
