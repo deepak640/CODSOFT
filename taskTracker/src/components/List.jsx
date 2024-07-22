@@ -29,11 +29,17 @@ const List = ({ task, setData, data, setComplete }) => {
     setData((prev) => prev.filter((d) => d !== item));
   };
   const handleComplete = (task) => {
-    setComplete((prev) => [
-      ...prev,
-      data.filter(({ topic }) => topic === task)[0],
-    ]);
-    setData((prev) => prev.filter(({ topic }) => topic !== task));
+    const taskToUpdate = data.find((d) => d.topic === task);
+    console.log("🚀 ~ handleComplete ~ taskToUpdate:", taskToUpdate)
+    if (taskToUpdate) {
+      setComplete((previousComplete) => [
+        ...previousComplete,
+        { ...taskToUpdate, date: `completed at ${momentDate}` },
+      ]);
+      setData((previousData) =>
+        previousData.filter(({ topic }) => topic !== task)
+      );
+    }
   };
   return (
     <>
