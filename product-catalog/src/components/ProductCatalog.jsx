@@ -25,15 +25,16 @@ function ProductCatalog() {
   if (error) return <div>Error: {error.message}</div>;
 
   return (
-      <div className="product-list">
-        {data ? (
-          data.map((product, index) => (
-            <Product key={index} product={product} />
-          ))
-        ) : (
+    <div className="product-list">
+      {data.length ? (
+        data.map((product, index) => <Product key={index} product={product} />)
+      ) : (
+        <div>
           <h1>No data available</h1>
-        )}
-      </div>
+          <button className="" onClick={()=> window.location.href = "/upload"}>Upload data</button>
+        </div>
+      )}
+    </div>
   );
 }
 

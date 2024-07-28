@@ -4,7 +4,6 @@ import { Badge } from "antd";
 import { useSelector } from "react-redux";
 const Header = () => {
   const { cart } = useSelector((state) => state.cart);
-  console.log("🚀 ~ Header ~ cart:", cart);
   return (
     <div className="header">
       <h2 className="header-title">Product Catalog</h2>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { addToCart, removeFromCart } from "../slice/cartSlice";
-const Product = ({ product, cart }) => {
+const Product = ({ product, cart ,setCount}) => {
   const dispatch = useDispatch();
   const onAddToCart = () => {
     dispatch(addToCart(product));
@@ -11,7 +11,7 @@ const Product = ({ product, cart }) => {
   };
   return (
     <div className="product">
-      <img src={product.imageUrl} alt={product.name} />
+      <img loading="lazy" src={product.imageUrl} alt={product.name} />
       <h2>{product.name}</h2>
       <p>{product.description}</p>
       <p>Category: {product.category}</p>
